@@ -87,13 +87,13 @@ require_once "../config/conexao.php";
     $optionOrderUser = isset($_POST["optionOrderUser"]) ? $_POST["optionOrderUser"] : "idviagem";
     $valorUser = isset($_POST["valorUser"]) ? $_POST["valorUser"] : "";
 
-    $sql = ("SELECT viagem.idviagem, partida, destino, dataviagem,idmotorista, nome, sobrenome  FROM viagem, motorista WHERE viagem.id_motorista = motorista.idmotorista;");   
+    $sql = ("SELECT viagem.idviagem, partida, destino, dataviagem,id_motorista, nome, sobrenome  FROM viagem, motorista WHERE viagem.id_motorista = motorista.idmotorista;");   
 
     if ($optionSearchUser != "") {
         if ($optionSearchUser == "idviagem") {
-            $sql = (" SELECT viagem.idviagem, partida, destino, dataviagem,idmotorista, nome, sobrenome FROM viagem, motorista WHERE viagem.id_motorista = motorista.idmotorista AND viagem.id_motorista = $valorUser ORDER BY $optionOrderUser;"); 
-        }elseif ($optionSearchUser == "descricao") {
-            $sql =(" SELECT viagem.idviagem,partida, destino, dataviagem,idmotorista, nome, sobrenome FROM viagem, motorista WHERE viagem.id_motorista = motorista.idmotorista AND $optionSearchUser LIKE '$valorUser%' ORDER BY $optionOrderUser;");   
+            $sql = (" SELECT viagem.idviagem, partida, destino, dataviagem,id_motorista, nome, sobrenome FROM viagem, motorista WHERE viagem.id_motorista = motorista.idmotorista AND viagem.idviagem = $valorUser ORDER BY $optionOrderUser;"); 
+        }elseif ($optionSearchUser == "destino") {
+            $sql =(" SELECT viagem.idviagem,partida, destino, dataviagem,id_motorista, nome, sobrenome FROM viagem, motorista WHERE viagem.id_motorista = motorista.idmotorista AND $optionSearchUser LIKE '$valorUser%' ORDER BY $optionOrderUser;");   
         }  
     } 
     if($valorUser == ""){
@@ -107,12 +107,13 @@ require_once "../config/conexao.php";
     <th scope='col'>Data da Viagem</th><th scope='col'>Codigo do Motorista</th><th scope='col'>Nome</th><th scope='col'>Sobrenome</th>
     <th scope='col'>Alterar</th><th scope='col'>Excluir</th></tr></div>";
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-?>
+        
+?> 
         <tr>
             <td><?php echo $linha['idviagem']; ?></td>
             <td><?php echo $linha['partida']; ?></td>
             <td><?php echo $linha['destino']; ?></td>
-            <td><?php echo $linha['dataviagem']; ?></td>
+            <td><?php echo date("d/m/Y",strtotime($linha['dataviagem'])); ?></td>
             <td><?php echo $linha['id_motorista']; ?></td>
             <td><?php echo $linha['nome']; ?></td>
             <td><?php echo $linha['sobrenome']; ?></td>
